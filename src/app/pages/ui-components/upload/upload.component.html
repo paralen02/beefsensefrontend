@@ -1,0 +1,13 @@
+<div class="upload-container">
+  <h2>Upload Image for Prediction</h2>
+  <input type="file" (change)="onFileSelected($event)" />
+  <button (click)="onUpload()" [disabled]="!selectedFile">Upload</button>
+  <div *ngIf="predictionResult">
+    <h3>Prediction Result:</h3>
+    <p>{{ predictionResult }}</p>
+  </div>
+  <div *ngIf="errorMessage">
+    <h3>Error:</h3>
+    <p>{{ errorMessage }}</p>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+.upload-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.upload-container input {
+  margin: 10px 0;
+}
+
+.upload-container button {
+  margin: 10px 0;
+}
+
+

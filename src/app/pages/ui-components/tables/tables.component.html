@@ -1,0 +1,107 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title>Listado de carnes</mat-card-title>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="w-100">
+        <!-- ID Column -->
+        <ng-container matColumnDef="idCarnes">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            ID
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="text-dark f-w-600">{{ element.idCarnes }} </span>
+            </h6>
+          </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="sexo">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">
+            Producto
+          </th>
+          <td mat-cell *matCellDef="let element" class="p-l-0">
+            <div class="d-flex align-items-center">
+              <div class="m-l-16">
+                <h6 class="mat-subtitle-1 f-s-16 f-w-600">
+                  {{ element.sexo }}
+                </h6>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Conformacion Column -->
+        <ng-container matColumnDef="conformacion">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            Conformación
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="text-dark f-w-600">{{ element.conformacion }} </span>
+            </h6>
+          </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="grasa">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            Grasa
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-16">
+              {{ element.grasa | titlecase }}
+            </span>
+          </td>
+        </ng-container>
+
+
+        <!-- Peso Column -->
+        <ng-container matColumnDef="peso">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            Peso
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="text-dark f-w-600">{{ element.peso }} </span>
+            </h6>
+          </td>
+        </ng-container>
+
+        <!-- Fecha Column -->
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            Fecha
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="text-dark f-w-600">{{ element.fecha | date:'dd/MM/yyyy HH:mm' }} </span>
+            </h6>
+          </td>
+        </ng-container>
+
+        <!-- Operario Column -->
+        <ng-container matColumnDef="operarios_id">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            Operario
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="text-dark f-w-600">
+                {{ element.operarios_id ? element.operarios_id.nombre + ' ' + element.operarios_id.apellido : 'Sin asignar' }}
+              </span>
+            </h6>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
