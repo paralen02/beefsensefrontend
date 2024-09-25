@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
-const base_url = "http://192.168.0.113:5000";
+const base_url = environment.base;
 
 @Injectable({
   providedIn: 'root'
 })
 export class TensorFlowService {
 
-  private url = `${base_url}/predict`;
+  private url = `${base_url}/api/predict`;
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +22,14 @@ export class TensorFlowService {
     let token = sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.post(this.url, formData, { headers, responseType: 'json' });
+    return this.http.post(this.url, formData, { headers, responseType: 'text' }).pipe(
+      map(response => {
+        try {
+          return JSON.parse(response);
+        } catch (e) {
+          return response;
+        }
+      })
+    );
   }
 }
