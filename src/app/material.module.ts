@@ -44,21 +44,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { getStorage, provideStorage } from '@angular/fire/storage';
-import { environment } from '../environments/environment';
-import { provideFirestore } from '@angular/fire/firestore';
-import { getFirestore } from 'firebase/firestore';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 @NgModule({
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
+    JwtHelperService
   ],
   imports: [],
   declarations: [],
