@@ -4,7 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 
 export const environment = {
   production: false,
-  base: "http://localhost:8080", // Ruta a la API
+  base: "https://beefsenseapiv2-863994867283.southamerica-west1.run.app", // Ruta a la API
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
