@@ -3,7 +3,7 @@
     <mat-card-title>Listado de carnes</mat-card-title>
 
     <div class="table-responsive">
-      <table mat-table [dataSource]="dataSource" class="w-100">
+      <table mat-table [dataSource]="dataSource" class="w-100" *ngIf="!isLoading; else loading">
         <!-- ID Column -->
         <ng-container matColumnDef="idCarnes">
           <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
@@ -97,11 +97,13 @@
             </h6>
           </td>
         </ng-container>
-
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      <ng-template #loading>
+        <ngx-skeleton-loader count="5" [theme]="{ 'border-radius': '0', height: '50px' }"></ngx-skeleton-loader>
+    </ng-template>
     </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>

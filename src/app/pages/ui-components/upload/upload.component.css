@@ -1,14 +1,11 @@
-.upload-container {
-  text-align: center;
-  margin-top: 50px;
+.image-preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.upload-container input {
-  margin: 10px 0;
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-.upload-container button {
-  margin: 10px 0;
-}
-
-

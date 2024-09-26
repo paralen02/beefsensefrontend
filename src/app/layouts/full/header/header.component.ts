@@ -17,12 +17,17 @@ import { OperariosService } from '../../../services/operarios.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, NgScrollbarModule, MaterialModule, MatButtonModule],
+  imports: [
+    RouterModule,
+    CommonModule,
+    NgScrollbarModule,
+    MaterialModule,
+    MatButtonModule,
+  ],
   templateUrl: './header.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
@@ -35,12 +40,16 @@ export class HeaderComponent implements OnInit{
   constructor(
     private loginService: LoginService,
     public router: Router,
-    private operariosService: OperariosService,
+    private operariosService: OperariosService
   ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd && event.url === '/' && sessionStorage.getItem('shouldRefresh') === 'true') {
+      if (
+        event instanceof NavigationEnd &&
+        event.url === '/' &&
+        sessionStorage.getItem('shouldRefresh') === 'true'
+      ) {
         sessionStorage.removeItem('shouldRefresh');
         location.reload();
       }
@@ -48,7 +57,7 @@ export class HeaderComponent implements OnInit{
     this.getOperario();
   }
 
-  logout():void{
+  logout(): void {
     this.router.navigate(['']);
     sessionStorage.clear();
   }

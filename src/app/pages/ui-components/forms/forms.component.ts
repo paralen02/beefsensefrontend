@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Operarios } from '../../../models/operarios';
 import { CarnesService } from '../../../services/carnes.service';
 import { OperariosService } from '../../../services/operarios.service';
 import { LoginService } from '../../../services/login.service';
 import { Carnes } from '../../../models/carnes';
-import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-forms',
@@ -26,12 +24,14 @@ import { Router } from '@angular/router';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
   templateUrl: './forms.component.html',
 })
 export class AppFormsComponent implements OnInit {
   form: FormGroup;
   operario: Operarios | null = null;
+  isLoading = true;
 
   pesoOptions = [
     { value: 'A', viewValue: 'A: =< 90 kg' },
@@ -65,13 +65,13 @@ export class AppFormsComponent implements OnInit {
     { value: 'Ternera', viewValue: 'Z (ternera)' },
   ];
 
-
   constructor(
     private fb: FormBuilder,
     private carnesService: CarnesService,
     private operariosService: OperariosService,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
       idCarnes: ['', Validators.required],
@@ -79,17 +79,23 @@ export class AppFormsComponent implements OnInit {
       grasa: ['', Validators.required],
       conformacion: ['', Validators.required],
       sexo: ['', Validators.required],
-      fecha: [{ value: this.getCurrentDateTime(), disabled: true }, Validators.required],
+      fecha: [
+        { value: this.getCurrentDateTime(), disabled: true },
+        Validators.required,
+      ],
       operarioName: [{ value: '', disabled: true }],
     });
   }
 
   ngOnInit() {
     this.carnesService.list().subscribe((response: any[]) => {
-      const lastId = response.length > 0 ? response[response.length - 1].idCarnes : 0;
+      const lastId =
+        response.length > 0 ? response[response.length - 1].idCarnes : 0;
       const newId = lastId + 1;
       this.form.patchValue({ idCarnes: newId });
       this.form.get('idCarnes')?.disable();
+      sessionStorage.setItem('idCarnes', newId.toString());
+      this.isLoading = false;
     });
     this.loadOperario();
     this.updateFecha();
@@ -100,7 +106,9 @@ export class AppFormsComponent implements OnInit {
       const fecha = new Date();
       const offset = -5 * 60 * 60 * 1000;
       const fechaLima = new Date(fecha.getTime() + offset);
-      this.form.patchValue({ fecha: fechaLima.toISOString().slice(0, 16).replace('T', ' ') });
+      this.form.patchValue({
+        fecha: fechaLima.toISOString().slice(0, 16).replace('T', ' '),
+      });
     }, 1000);
   }
 
@@ -115,10 +123,14 @@ export class AppFormsComponent implements OnInit {
         (data) => {
           this.operario = data;
           sessionStorage.setItem('operario', JSON.stringify(this.operario));
-            this.form.patchValue({ operarioName: `${this.operario?.nombre} ${this.operario?.apellido}` });
+          this.form.patchValue({
+            operarioName: `${this.operario?.nombre} ${this.operario?.apellido}`,
+          });
         },
         (error) => {
-          console.error('Error fetching operario data', error);
+          this.snackBar.open('Error al obtener los datos del operario', 'Cerrar', {
+            duration: 3000,
+          });
         }
       );
     }
@@ -142,19 +154,31 @@ export class AppFormsComponent implements OnInit {
 
         this.carnesService.insert(carneData).subscribe(
           (response) => {
-            console.log('Carne registrada con éxito', response);
-            this.router.navigate(['ui-components/tables']);
+            this.snackBar.open('Carne registrada con éxito', 'Cerrar', {
+              duration: 3000,
+            });
+            // Redirect to the desired route after successful insertion
+            this.router.navigate(['/ui-components/upload', carneData.idCarnes]);
           },
           (error) => {
-            console.error('Error al registrar la carne', error);
+            this.snackBar.open('Error al registrar la carne', 'Cerrar', {
+              duration: 3000,
+            });
           }
         );
       } else {
-        console.log('No se encontró información del operario en la sesión');
+        this.snackBar.open('No se encontró información del operario en la sesión', 'Cerrar', {
+          duration: 3000,
+        });
       }
     } else {
-      console.log('Formulario inválido o sin operario');
+      this.snackBar.open('Formulario inválido', 'Cerrar', {
+        duration: 3000,
+      });
     }
   }
 
+  onCancel() {
+    this.router.navigate(['/ui-components/tables']);
+  }
 }

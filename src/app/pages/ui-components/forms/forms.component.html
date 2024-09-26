@@ -3,78 +3,83 @@
     <mat-card-title class="m-b-0">Ingreso de datos</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-lg-6">
-          <!-- ID de la carne -->
-          <mat-label class="f-w-600 m-b-8 d-block">ID de la carne</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput formControlName="idCarnes" />
-          </mat-form-field>
+    <ng-container *ngIf="!isLoading; else loading">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-lg-6">
+            <!-- ID de la carne -->
+            <mat-label class="f-w-600 m-b-8 d-block">ID de carne</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="idCarnes" />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Nombre del Operario -->
+            <mat-label class="f-w-600 m-b-8 d-block">Nombre del operario</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="operarioName" readonly />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Hora de Registro -->
+            <mat-label class="f-w-600 m-b-8 d-block">Hora de registro</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="fecha" placeholder="hora" />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Peso -->
+            <mat-label class="f-w-600 m-b-8 d-block">Rango de peso</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select formControlName="peso">
+                <mat-option *ngFor="let option of pesoOptions" [value]="option.value">
+                  {{ option.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Sexo -->
+            <mat-label class="f-w-600 m-b-8 d-block">Categoría sexual</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select formControlName="sexo">
+                <mat-option *ngFor="let option of sexOptions" [value]="option.value">
+                  {{ option.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Conformación -->
+            <mat-label class="f-w-600 m-b-8 d-block">Conformación</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select formControlName="conformacion">
+                <mat-option *ngFor="let option of conformacionOptions" [value]="option.value">
+                  {{ option.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Grasa -->
+            <mat-label class="f-w-600 m-b-8 d-block">Grasa</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select formControlName="grasa">
+                <mat-option *ngFor="let option of grasaOptions" [value]="option.value">
+                  {{ option.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-        <div class="col-lg-6">
-          <!-- Nombre del Operario -->
-          <mat-label class="f-w-600 m-b-8 d-block">Nombre del operario</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <input matInput formControlName="operarioName" readonly />
-          </mat-form-field>
+        <div class="m-t-12">
+          <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="onCancel()">Cancelar</button>
+          <button mat-stroked-button color="warn" type="button" (click)="onSubmit()">Siguiente</button>
         </div>
-        <div class="col-lg-6">
-          <!-- Hora de Registro -->
-          <mat-label class="f-w-600 m-b-8 d-block">Hora de registro</mat-label>
-          <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input matInput formControlName="fecha" placeholder="hora" />
-          </mat-form-field>
-        </div>
-        <div class="col-lg-6">
-          <!-- Peso -->
-          <mat-label class="f-w-600 m-b-8 d-block">Peso de la carne</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="peso">
-              <mat-option *ngFor="let option of pesoOptions" [value]="option.value">
-                {{ option.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-lg-6">
-          <!-- Sexo -->
-          <mat-label class="f-w-600 m-b-8 d-block">Categoría sexual</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="sexo">
-              <mat-option *ngFor="let option of sexOptions" [value]="option.value">
-                {{ option.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-lg-6">
-          <!-- Conformación -->
-          <mat-label class="f-w-600 m-b-8 d-block">Conformación</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="conformacion">
-              <mat-option *ngFor="let option of conformacionOptions" [value]="option.value">
-                {{ option.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-lg-6">
-          <!-- Grasa -->
-          <mat-label class="f-w-600 m-b-8 d-block">Grasa</mat-label>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-select formControlName="grasa">
-              <mat-option *ngFor="let option of grasaOptions" [value]="option.value">
-                {{ option.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="m-t-12">
-        <button mat-flat-button color="primary" type="submit">Enviar</button>
-        <button mat-stroked-button color="warn" type="button">Cancelar</button>
-      </div>
-    </form>
+      </form>
+    </ng-container>
+    <ng-template #loading>
+      <ngx-skeleton-loader count="7" [theme]="{ 'border-radius': '0', height: '50px' }"></ngx-skeleton-loader>
+    </ng-template>
   </mat-card-content>
 </mat-card>

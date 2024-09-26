@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 // Material Form Controls
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -43,12 +42,25 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { environment } from '../environments/environment';
+import { provideFirestore } from '@angular/fire/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 @NgModule({
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
   ],
+  imports: [],
   declarations: [],
   exports: [
     MatAutocompleteModule,
@@ -86,7 +98,9 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    NgxSkeletonLoaderModule,
+    NgxPaginationModule
+    ],
 })
 export class MaterialModule {}

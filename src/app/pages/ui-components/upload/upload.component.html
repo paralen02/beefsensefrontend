@@ -1,13 +1,51 @@
-<div class="upload-container">
-  <h2>Upload Image for Prediction</h2>
-  <input type="file" (change)="onFileSelected($event)" />
-  <button (click)="onUpload()" [disabled]="!selectedFile">Upload</button>
-  <div *ngIf="predictionResult">
-    <h3>Prediction Result:</h3>
-    <p>{{ predictionResult }}</p>
-  </div>
-  <div *ngIf="errorMessage">
-    <h3>Error:</h3>
-    <p>{{ errorMessage }}</p>
-  </div>
-</div>
+<mat-card class="upload-card">
+  <mat-card-header>
+    <mat-card-title>Subir imagen de carne</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-6">
+        <div *ngIf="imageUrl">
+          <img [src]="imageUrl" alt="Image Preview"
+            style="width: 300px; height: 300px; object-fit: cover" />
+        </div>
+        <div class="m-t-30">
+          <button mat-flat-button color="warn" class="m-r-8" (click)="fileInput.click()">
+            Elegir archivo
+          </button>
+          <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+          <button mat-stroked-button color="primary" (click)="onUpload()" [disabled]="!selectedFile">
+            Predecir
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="table-responsive" *ngIf="predictionResult">
+          <table mat-table [dataSource]="dataSource" class="w-100">
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef>Categoría</th>
+              <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+            </ng-container>
+
+            <!-- Confidence Column -->
+            <ng-container matColumnDef="confidence">
+              <th mat-header-cell *matHeaderCellDef>Confianza</th>
+              <td mat-cell *matCellDef="let element">
+                {{ (element.confidence * 100) | number:'1.3-3' }}%
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{'bg-light-success text-success rounded': row.confidence === highestConfidence}"></tr>
+          </table>
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+          <h3>Error:</h3>
+          <p>{{ errorMessage }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

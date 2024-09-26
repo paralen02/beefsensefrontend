@@ -18,7 +18,7 @@ export const UiComponentsRoutes: Routes = [
         component: AppTablesComponent,
       },
       {
-        path: 'upload',
+        path: 'upload/:idCarnes',
         component: UploadComponent,
       },
     ],
