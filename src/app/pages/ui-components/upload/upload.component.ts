@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TensorFlowService } from '../../../services/tensorflow.service';
+import { SignedUrlService } from '../../../services/signedurl.service';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MaterialModule } from '../../../material.module';
@@ -26,7 +27,11 @@ export class UploadComponent {
   displayedColumns: string[] = ['category', 'confidence'];
   highestConfidence: number | null = null;
 
-  constructor(private tensorFlowService: TensorFlowService, private snackBar: MatSnackBar) {}
+  constructor(
+    private tensorFlowService: TensorFlowService,
+    private signedUrlService: SignedUrlService,
+    private snackBar: MatSnackBar
+  ) {}
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -42,6 +47,7 @@ export class UploadComponent {
 
   onUpload(): void {
     if (this.selectedFile) {
+      // Step 1: Make the prediction with the local image
       this.tensorFlowService.predict(this.selectedFile).subscribe(
         (result: PredictionDTO[]) => {
           this.predictionResult = result;
@@ -49,6 +55,18 @@ export class UploadComponent {
           this.highestConfidence = Math.max(...result.map(r => r.confidence));
           this.errorMessage = null;
           this.snackBar.open('Se realizó la predicción correctamente', 'Cerrar', { duration: 3000 });
+
+          // Step 2: Upload the file to cloud storage
+          this.signedUrlService.uploadFile(this.selectedFile!).subscribe(
+            () => {
+              this.snackBar.open('Archivo subido correctamente', 'Cerrar', { duration: 3000 });
+            },
+            (error) => {
+              console.error('Error uploading file:', error);
+              this.errorMessage = 'Ocurrió un error al subir el archivo.';
+              this.snackBar.open(this.errorMessage, 'Cerrar', { duration: 3000 });
+            }
+          );
         },
         (error) => {
           console.error('Error:', error);
