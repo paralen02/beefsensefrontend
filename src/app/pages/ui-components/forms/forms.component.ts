@@ -158,7 +158,6 @@ export class AppFormsComponent implements OnInit {
             this.snackBar.open('Carne registrada con éxito', 'Cerrar', {
               duration: 3000,
             });
-            // Redirect to the desired route after successful insertion
             this.router.navigate(['/ui-components/upload', carneData.idCarnes]);
           },
           (error) => {

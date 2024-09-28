@@ -1,0 +1,58 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Modificar usuario</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <ng-container *ngIf="!isLoading; else loading">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-lg-6">
+            <!-- ID del Operario -->
+            <mat-label class="f-w-600 m-b-8 d-block">ID del Operario</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="idOperarios" readonly />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Nombre del Operario -->
+            <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="nombre" />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Apellido del Operario -->
+            <mat-label class="f-w-600 m-b-8 d-block">Apellido</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="apellido" />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Username -->
+            <mat-label class="f-w-600 m-b-8 d-block">Username</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="username" />
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Enabled -->
+            <mat-label class="f-w-600 m-b-8 d-block">Enabled</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select formControlName="enabled">
+                <mat-option [value]="true">true</mat-option>
+                <mat-option [value]="false">false</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="m-t-12">
+          <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="onCancel()">Cancelar</button>
+          <button mat-stroked-button color="warn" type="submit">Guardar</button>
+        </div>
+      </form>
+    </ng-container>
+    <ng-template #loading>
+      <ngx-skeleton-loader count="7" [theme]="{ 'border-radius': '0', height: '50px' }"></ngx-skeleton-loader>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

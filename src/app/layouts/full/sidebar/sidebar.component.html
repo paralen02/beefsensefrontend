@@ -1,10 +1,24 @@
 <div class="d-flex align-items-center justify-content-between">
-    <app-branding></app-branding>
-
-    @if(showToggle) {
-    <a href="javascript:void(0)" (click)="toggleMobileNav.emit()"
-        class="d-flex justify-content-center ng-star-inserted icon-40 align-items-center mat-body-1">
-        <i-tabler name="x" class="icon-20 d-flex"></i-tabler>
-    </a>
-    }
+  <app-branding></app-branding>
+  <a *ngIf="showToggle" href="javascript:void(0)" (click)="toggleMobileNav.emit()"
+     class="d-flex justify-content-center ng-star-inserted icon-40 align-items-center mat-body-1">
+    <i-tabler name="x" class="icon-20 d-flex"></i-tabler>
+  </a>
 </div>
+<ng-container *ngIf="loading; else content">
+  <ngx-skeleton-loader count="11" [theme]="{
+    'border-radius': '4px',
+    'height': '40px',
+    'animation': 'pulse 1.5s infinite',
+    'width': '80%'
+  }"></ngx-skeleton-loader>
+</ng-container>
+<ng-template #content>
+  <mat-nav-list class="sidebar-list">
+    <ng-container *ngIf="navItems">
+      <ng-container *ngFor="let item of navItems">
+        <app-nav-item [item]="item" (notify)="toggleMobileNav.emit()"></app-nav-item>
+      </ng-container>
+    </ng-container>
+  </mat-nav-list>
+</ng-template>
