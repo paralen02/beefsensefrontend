@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from '../../../material.module';
 import { LoginService } from '../../../services/login.service';
 import { OperariosService } from '../../../services/operarios.service';
+import { RoleService } from '../../../services/role.service'; // Import RoleService
 
 @Component({
   selector: 'app-header',
@@ -35,12 +36,13 @@ export class HeaderComponent implements OnInit {
 
   role: string = '';
   username: string = '';
-  operario: string = '';
+  loggedUser: string = '';
 
   constructor(
     private loginService: LoginService,
     public router: Router,
-    private operariosService: OperariosService
+    private operariosService: OperariosService,
+    private roleService: RoleService
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +56,7 @@ export class HeaderComponent implements OnInit {
         location.reload();
       }
     });
-    this.getOperario();
+    this.checkUserRole();
   }
 
   logout(): void {
@@ -62,12 +64,26 @@ export class HeaderComponent implements OnInit {
     sessionStorage.clear();
   }
 
+  checkUserRole(): void {
+    const username = this.loginService.getUsername();
+    if (username) {
+      this.roleService.getRolesForUser(username).subscribe((roles) => {
+        const isOperario = roles.some(role => role.rol === 'OPERARIO');
+        if (isOperario) {
+          this.getOperario();
+        } else {
+          this.loggedUser = username;
+        }
+      });
+    }
+  }
+
   getOperario(): void {
     const username = this.loginService.getUsername();
     if (username) {
       this.operariosService.findByUsername(username).subscribe((data) => {
         if (data) {
-          this.operario = data.nombre;
+          this.loggedUser = data.nombre;
         }
       });
     }

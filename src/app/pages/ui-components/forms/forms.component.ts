@@ -149,7 +149,8 @@ export class AppFormsComponent implements OnInit {
           fecha: new Date(this.form.get('fecha')?.value),
           conformacion: this.form.get('conformacion')?.value,
           grasa: this.form.get('grasa')?.value,
-          operarios_id: { idOperarios: operarioData.idOperarios }
+          operarios_id: { idOperarios: operarioData.idOperarios },
+          imagen: '',
         };
 
         this.carnesService.insert(carneData).subscribe(

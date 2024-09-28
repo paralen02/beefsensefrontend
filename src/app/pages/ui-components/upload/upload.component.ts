@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TensorFlowService } from '../../../services/tensorflow.service';
 import { SignedUrlService } from '../../../services/signedurl.service';
+import { CarnesService } from '../../../services/carnes.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MaterialModule } from '../../../material.module';
 import { MatTableDataSource } from '@angular/material/table';
+import { Carnes } from '../../../models/carnes';
 
 interface PredictionDTO {
   category: string;
@@ -16,9 +19,9 @@ interface PredictionDTO {
   imports: [CommonModule, MaterialModule],
   standalone: true,
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css']
+  styleUrls: ['./upload.component.css'],
 })
-export class UploadComponent {
+export class UploadComponent implements OnInit {
   selectedFile: File | null = null;
   predictionResult: PredictionDTO[] | null = null;
   errorMessage: string | null = null;
@@ -26,12 +29,35 @@ export class UploadComponent {
   dataSource: MatTableDataSource<PredictionDTO> = new MatTableDataSource();
   displayedColumns: string[] = ['category', 'confidence'];
   highestConfidence: number | null = null;
+  idCarnes: number | null = null;
 
   constructor(
     private tensorFlowService: TensorFlowService,
     private signedUrlService: SignedUrlService,
-    private snackBar: MatSnackBar
+    private carnesService: CarnesService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.idCarnes = +this.route.snapshot.paramMap.get('idCarnes')!;
+    if (this.idCarnes !== null) {
+      this.carnesService.listId(this.idCarnes).subscribe(
+        (carnes: Carnes) => {
+          if (carnes.imagen && (carnes.imagen.includes('google') || carnes.imagen.includes('bucket'))) {
+            this.snackBar.open('Ya has subido una imagen para esta entrada', 'Cerrar', {
+              duration: 3000,
+            });
+            this.router.navigate(['/ui-components/tables']);
+          }
+        },
+        (error) => {
+          console.error('Error checking image:', error);
+        }
+      );
+    }
+  }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -47,31 +73,55 @@ export class UploadComponent {
 
   onUpload(): void {
     if (this.selectedFile) {
-      // Step 1: Make the prediction with the local image
+      // Hacer la predicción con la imagen local
       this.tensorFlowService.predict(this.selectedFile).subscribe(
         (result: PredictionDTO[]) => {
           this.predictionResult = result;
           this.dataSource.data = result;
-          this.highestConfidence = Math.max(...result.map(r => r.confidence));
+          this.highestConfidence = Math.max(...result.map((r) => r.confidence));
           this.errorMessage = null;
-          this.snackBar.open('Se realizó la predicción correctamente', 'Cerrar', { duration: 3000 });
+            console.log('Se realizó la predicción correctamente');
 
-          // Step 2: Upload the file to cloud storage
+          // Subir a GCP (buckets) con signedUrl
           this.signedUrlService.uploadFile(this.selectedFile!).subscribe(
-            () => {
-              this.snackBar.open('Archivo subido correctamente', 'Cerrar', { duration: 3000 });
+            (uploadResult: any) => {
+              this.snackBar.open('Archivo subido correctamente', 'Cerrar', {
+                duration: 3000,
+              });
+
+              // Guardar el link de la imagen en la base de datos
+              if (this.idCarnes !== null) {
+                const url = new URL(uploadResult.url);
+                const baseUrl = `${url.origin}${url.pathname}`;
+
+                this.carnesService
+                  .updateImagen(this.idCarnes, baseUrl)
+                  .subscribe(
+                  () => {
+                    console.log('Enlace guardado correctamente');
+                  },
+                  (error) => {
+                    console.error('Error al guardar el enlace:', error);
+                    this.errorMessage =
+                    'Ocurrió un error al guardar el enlace.';
+                    console.log(this.errorMessage);
+                  }
+                  );
+              }
             },
             (error) => {
-              console.error('Error uploading file:', error);
+              console.error('Error al subir el archivo:', error);
               this.errorMessage = 'Ocurrió un error al subir el archivo.';
-              this.snackBar.open(this.errorMessage, 'Cerrar', { duration: 3000 });
+              this.snackBar.open(this.errorMessage, 'Cerrar', {
+                duration: 3000,
+              });
             }
           );
         },
         (error) => {
           console.error('Error:', error);
           this.errorMessage = 'Ocurrió un error al realizar la predicción.';
-          this.snackBar.open(this.errorMessage, 'Cerrar', { duration: 3000 });
+            console.log(this.errorMessage);
         }
       );
     }

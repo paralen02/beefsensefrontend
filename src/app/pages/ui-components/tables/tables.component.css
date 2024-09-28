@@ -1,0 +1,12 @@
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: var(--mat-primary);
+  color: white;
+}
+
+.clickable-row:hover td {
+  color: white;
+}

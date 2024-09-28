@@ -65,4 +65,11 @@ export class CarnesService {
       headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
     });
   }
+
+  updateImagen(idCarnes: number, imagen: string): Observable<any> {
+    let token = sessionStorage.getItem('token');
+    return this.http.patch(`${this.url}/${idCarnes}/imagen`, { imagen }, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
+    });
+  }
 }

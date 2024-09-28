@@ -9,7 +9,7 @@
           <img [src]="imageUrl" alt="Image Preview" style="width: 300px; height: 300px; object-fit: cover" />
         </div>
         <div class="m-t-30">
-          <button mat-flat-button color="warn" class="m-r-8" (click)="fileInput.click()">
+          <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="fileInput.click()">
             Elegir archivo
           </button>
           <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />

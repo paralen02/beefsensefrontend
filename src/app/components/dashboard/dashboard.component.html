@@ -2,18 +2,9 @@
   <mat-card-content>
     <div class="hstack align-items-center flex-column flex-lg-row">
       <div class="w-100">
-        <mat-card-title>Rendimiento de los modelos</mat-card-title>
+        <mat-card-title>Gráfica de precisión del modelo vs mes</mat-card-title>
       </div>
       <div class="m-l-auto">
-          <mat-form-field class="theme-select" appearance="outline">
-              <mat-select value="mar">
-                @for(month of months; track month.viewValue ) {
-                <mat-option [value]="month.value">
-                  {{ month.viewValue }}
-                </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
       </div>
     </div>
 

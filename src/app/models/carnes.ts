@@ -5,5 +5,6 @@ export class Carnes {
   fecha: Date = new Date();
   conformacion: string = "";
   grasa: string = "";
+  imagen: string = "";
   operarios_id: { idOperarios: number } = { idOperarios: 0 };
 }

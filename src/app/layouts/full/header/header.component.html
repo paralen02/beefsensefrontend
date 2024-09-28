@@ -1,10 +1,8 @@
 <mat-toolbar class="topbar">
   <!-- Mobile Menu -->
-  @if(!showToggle) {
-  <button mat-mini-fab color="inherit" (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
+  <button *ngIf="!showToggle" mat-mini-fab color="inherit" (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
     <i class="iconify icon-20 d-flex" data-icon="solar:hamburger-menu-line-duotone"></i>
   </button>
-  }
 
   <span class="flex-1-auto"></span>
 
@@ -18,7 +16,7 @@
   <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
     <button mat-menu-item>
       Hola,
-      <span>{{ operario }}</span>
+      <span>{{ loggedUser }}</span>
     </button>
     <button mat-menu-item>
       <mat-icon class="d-flex align-items-center"><i data-icon="solar:shield-user-line-duotone"
