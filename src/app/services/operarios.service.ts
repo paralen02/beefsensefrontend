@@ -52,6 +52,13 @@ export class OperariosService {
     });
   }
 
+  patch(id: number, updates: Partial<Operarios>): Observable<any> {
+    let token = sessionStorage.getItem('token');
+    return this.http.patch(`${this.url}/${id}`, updates, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
+    });
+  }
+
   delete(id: number): Observable<any> {
     let token = sessionStorage.getItem('token');
     return this.http.delete(`${this.url}/${id}`, {

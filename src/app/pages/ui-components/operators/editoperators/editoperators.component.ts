@@ -38,7 +38,7 @@ export class EditOperatorsComponent implements OnInit {
       nombre: [''],
       apellido: [''],
       username: [''],
-      enabled: [''],
+      enabled: [false],
     });
   }
 
@@ -77,27 +77,18 @@ export class EditOperatorsComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const updatedOperario = {
-        idOperarios: this.operarioId,
         nombre: this.form.get('nombre')?.value,
         apellido: this.form.get('apellido')?.value,
-        users_id: {
-          id: this.users_id,
-          username: this.form.get('username')?.value,
-          password: this.existingPassword,
-          enabled: this.form.get('enabled')?.value,
-        },
       };
 
-      this.operariosService.update(updatedOperario).subscribe(() => {
-        const updatedUser = {
-          id: this.users_id,
-          username: updatedOperario.users_id.username,
-          password: this.existingPassword,
-          enabled: updatedOperario.users_id.enabled,
-        };
+      const updatedUser = {
+        username: this.form.get('username')?.value,
+        enabled: this.form.get('enabled')?.value,
+      };
 
-        this.usersService.update(updatedUser).subscribe(() => {
-          this.snackBar.open('Operario and User updated successfully', 'Close', {
+      this.operariosService.patch(this.operarioId, updatedOperario).subscribe(() => {
+        this.usersService.patch(this.users_id, updatedUser).subscribe(() => {
+          this.snackBar.open('Se modificó el usuario con éxito', 'Cerrar', {
             duration: 3000,
           });
           this.router.navigate(['/ui-components/operators']);
