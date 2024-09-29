@@ -73,14 +73,18 @@ export class UploadComponent implements OnInit {
 
   onUpload(): void {
     if (this.selectedFile) {
+      const startTime = new Date().getTime(); // Captura el tiempo antes de la predicción
       // Hacer la predicción con la imagen local
       this.tensorFlowService.predict(this.selectedFile).subscribe(
         (result: PredictionDTO[]) => {
+          const endTime = new Date().getTime(); // Captura el tiempo después de la predicción
+          const predictionTime = endTime - startTime; // Calcula el tiempo de predicción
+
           this.predictionResult = result;
           this.dataSource.data = result;
           this.highestConfidence = Math.max(...result.map((r) => r.confidence));
           this.errorMessage = null;
-            console.log('Se realizó la predicción correctamente');
+          console.log('Resultado de la predicción:', result, 'Tiempo de predicción:', predictionTime, 'ms');
 
           // Subir a GCP (buckets) con signedUrl
           this.signedUrlService.uploadFile(this.selectedFile!).subscribe(
