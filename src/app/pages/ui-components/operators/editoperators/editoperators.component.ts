@@ -86,14 +86,16 @@ export class EditOperatorsComponent implements OnInit {
         enabled: this.form.get('enabled')?.value,
       };
 
-      this.operariosService.patch(this.operarioId, updatedOperario).subscribe(() => {
-        this.usersService.patch(this.users_id, updatedUser).subscribe(() => {
-          this.snackBar.open('Se modificó el usuario con éxito', 'Cerrar', {
-            duration: 3000,
+      this.operariosService
+        .patch(this.operarioId, updatedOperario)
+        .subscribe(() => {
+          this.usersService.patch(this.users_id, updatedUser).subscribe(() => {
+            this.snackBar.open('Se modificó el usuario con éxito', 'Cerrar', {
+              duration: 3000,
+            });
+            this.router.navigate(['/ui-components/operators']);
           });
-          this.router.navigate(['/ui-components/operators']);
         });
-      });
     }
   }
 
