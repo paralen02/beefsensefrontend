@@ -1,0 +1,114 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Manual de Aprendizaje</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row">
+
+      <!-- Primera columna -->
+      <div class="col-lg-6">
+        <!-- Monitoreo y Operación -->
+        <mat-card class="b-1 shadow-none">
+          <mat-card-header>
+            <mat-card-title>Monitoreo y Operación</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="b-t-1">
+            <mat-list>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Monitoreo del Rendimiento del Modelo</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Visualización de métricas clave del rendimiento del modelo.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Gráficos de precisión y evolución, comparación de periodos.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Carga de Imágenes</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Proceso para subir fotografías de la carne.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Selección desde móviles o computadoras.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Visualización de Resultados</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Informe con la clase asignada a cada imagen.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Porcentaje de precisión incluido en el reporte.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Precisión del Modelo de Clasificación</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Muestra el grado de exactitud del modelo.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Porcentaje destacado en el reporte.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Segunda columna -->
+      <div class="col-lg-6">
+        <!-- Gestión y Soporte -->
+        <mat-card class="b-1 shadow-none">
+          <mat-card-header>
+            <mat-card-title>Gestión y Soporte</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="b-t-1">
+            <mat-list>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Gestión de Usuarios</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Creación, modificación y eliminación de cuentas.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Solo personal autorizado puede acceder.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Soporte Técnico</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Acceso rápido a asistencia técnica.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Enlace para contactar soporte en caso de problemas.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">Retroalimentación del Sistema</span>
+                <div style="margin-top: -20px;">
+                  <ul>
+                    <li><span matListItemLine class="mat-body-1">Permite proporcionar comentarios sobre el sistema.</span></li>
+                    <li><span matListItemLine class="mat-body-1">Ayuda a mejorar el rendimiento del modelo.</span></li>
+                  </ul>
+                </div>
+              </mat-list-item>
+
+            </mat-list>
+          </mat-card-content>
+
+        </mat-card>
+      </div>
+
+    </div>
+    <div class="m-t-12">
+      <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="onVolver()">Volver</button>
+    </div>
+  </mat-card-content>
+</mat-card>

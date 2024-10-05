@@ -25,6 +25,20 @@ export const navItems: { [key: string]: NavItem[] } = {
       iconName: 'solar:database-line-duotone',
       route: '/ui-components/tables',
     },
+    {
+      navCap: 'CENTRO DE AYUDA',
+      divider: true
+    },
+    {
+      displayName: 'Guia de Usuario',
+      iconName: 'solar:clipboard-list-line-duotone',
+      route: '/ui-components/guide',
+    },
+    {
+      displayName: 'Soporte',
+      iconName: 'solar:question-square-line-duotone',
+      route: '/authentication/support',
+    },
   ],
   ADMIN: [
     {
@@ -44,6 +58,11 @@ export const navItems: { [key: string]: NavItem[] } = {
       displayName: 'Gestionar Usuarios',
       iconName: 'solar:users-group-two-rounded-line-duotone',
       route: '/ui-components/operators',
+    },
+    {
+      displayName: 'Gestionar Consultas',
+      iconName: 'solar:document-add-line-duotone',
+      route: '/ui-components/inquiries',
     },
   ]
 };

@@ -8,8 +8,6 @@
               <img src="./assets/images/logos/inpelsa.svg" class="align-middle m-2" alt="logo" />
             </a>
           </div>
-
-
           <form class="m-t-30">
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Usuario</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
@@ -22,12 +20,12 @@
             </mat-form-field>
 
             <div class="d-flex align-items-center m-b-12">
-              <mat-checkbox color="primary">Recuérdame</mat-checkbox>
-              <a [routerLink]="['/']" class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">Contactar a soporte</a>
+              <!-- <mat-checkbox color="primary">Recuérdame</mat-checkbox> -->
+              <button (click)="login()" mat-flat-button color="primary" class="w-100">
+                Ingresar
+              </button>
             </div>
-            <button (click)="login()" mat-flat-button color="primary" class="w-100">
-              Ingresar
-            </button>
+            <a [routerLink]="['/authentication/support']" class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">Contactar a soporte</a>
           </form>
         </mat-card-content>
       </mat-card>

@@ -1,6 +1,6 @@
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
-    <mat-card-title class="m-b-0">Modificar usuario</mat-card-title>
+    <mat-card-title class="m-b-0">Modificar consulta</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
     <ng-container *ngIf="!isLoading; else loading">
@@ -8,39 +8,53 @@
         <div class="row">
           <div class="col-lg-6">
             <!-- ID del Operario -->
-            <mat-label class="f-w-600 m-b-8 d-block">ID del Operario</mat-label>
+            <mat-label class="f-w-600 m-b-8 d-block">ID de Consulta</mat-label>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput formControlName="idOperarios" readonly />
+              <input matInput formControlName="idConsultas" readonly />
             </mat-form-field>
           </div>
           <div class="col-lg-6">
-            <!-- Nombre del Operario -->
-            <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
+            <!-- Usuario -->
+            <mat-label class="f-w-600 m-b-8 d-block">Usuario</mat-label>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput formControlName="nombre" />
+              <input matInput formControlName="username" readonly/>
             </mat-form-field>
           </div>
           <div class="col-lg-6">
-            <!-- Apellido del Operario -->
-            <mat-label class="f-w-600 m-b-8 d-block">Apellido</mat-label>
+            <!-- Correo -->
+            <mat-label class="f-w-600 m-b-8 d-block">Correo</mat-label>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput formControlName="apellido" />
+              <input matInput formControlName="correo" readonly/>
             </mat-form-field>
           </div>
           <div class="col-lg-6">
-            <!-- Username -->
-            <mat-label class="f-w-600 m-b-8 d-block">Username</mat-label>
+            <!-- Motivo -->
+            <mat-label class="f-w-600 m-b-8 d-block">Motivo</mat-label>
             <mat-form-field appearance="outline" class="w-100">
-              <input matInput formControlName="username" />
+              <input matInput formControlName="motivo" readonly/>
             </mat-form-field>
           </div>
           <div class="col-lg-6">
-            <!-- Enabled -->
+            <!-- Descripción -->
+            <mat-label class="f-w-600 m-b-8 d-block">Descripción</mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput formControlName="descripcion" readonly/>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Fecha -->
+            <mat-label class="f-w-600 m-b-8 d-block">Fecha</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="fecha" readonly/>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <!-- Estado -->
             <mat-label class="f-w-600 m-b-8 d-block">Estado</mat-label>
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select formControlName="enabled">
-                <mat-option [value]="true">Habilitado</mat-option>
-                <mat-option [value]="false">Deshabilitado</mat-option>
+              <mat-select formControlName="estado">
+                <mat-option [value]="true">Resuelta</mat-option>
+                <mat-option [value]="false">Pendiente</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
