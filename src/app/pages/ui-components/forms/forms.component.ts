@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Operarios } from '../../../models/operarios';
 import { CarnesService } from '../../../services/carnes.service';
@@ -6,7 +6,7 @@ import { OperariosService } from '../../../services/operarios.service';
 import { LoginService } from '../../../services/login.service';
 import { Carnes } from '../../../models/carnes';
 import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MaterialModule } from '../../../material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -24,8 +24,8 @@ import { Router } from '@angular/router';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    MatSnackBarModule,
-  ],
+    MatSnackBarModule
+    ],
   templateUrl: './forms.component.html',
 })
 export class AppFormsComponent implements OnInit {
@@ -71,7 +71,9 @@ export class AppFormsComponent implements OnInit {
     private operariosService: OperariosService,
     private loginService: LoginService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private datePipe: DatePipe
+
   ) {
     this.form = this.fb.group({
       idCarnes: ['', Validators.required],
@@ -80,7 +82,7 @@ export class AppFormsComponent implements OnInit {
       conformacion: ['', Validators.required],
       sexo: ['', Validators.required],
       fecha: [
-        { value: this.getCurrentDateTime(), disabled: true },
+        { value: this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm', '-0500'), disabled: true },
         Validators.required,
       ],
       operarioName: [{ value: '', disabled: true }],
@@ -104,16 +106,10 @@ export class AppFormsComponent implements OnInit {
   updateFecha() {
     setInterval(() => {
       const fecha = new Date();
-      const offset = -5 * 60 * 60 * 1000;
-      const fechaLima = new Date(fecha.getTime() + offset);
       this.form.patchValue({
-        fecha: fechaLima.toISOString().slice(0, 16).replace('T', ' '),
+        fecha: this.datePipe.transform(fecha, 'dd/MM/yyyy HH:mm', '-0500'),
       });
     }, 1000);
-  }
-
-  getCurrentDateTime(): string {
-    return new Date().toISOString().slice(0, 16).replace('T', ' ');
   }
 
   loadOperario() {

@@ -1,6 +1,9 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
-    <mat-card-title>Listado de Operarios</mat-card-title>
+    <div class="d-flex justify-content-between align-items-center">
+      <mat-card-title>Listado de Operarios</mat-card-title>
+      <button mat-stroked-button color="warn" type="button" (click)="newOperator()">Nuevo</button>
+    </div>
 
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" class="w-100" *ngIf="!isLoading; else loading">

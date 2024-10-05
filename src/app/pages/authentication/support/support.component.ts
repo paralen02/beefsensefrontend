@@ -72,7 +72,7 @@ export class SupportComponent implements OnInit {
     }
   }
 
-  onVolver() {
+  onRegresar() {
     this.router.navigate(['/']);
   }
 }

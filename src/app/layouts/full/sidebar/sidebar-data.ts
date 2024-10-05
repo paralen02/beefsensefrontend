@@ -55,7 +55,7 @@ export const navItems: { [key: string]: NavItem[] } = {
       divider: true
     },
     {
-      displayName: 'Gestionar Usuarios',
+      displayName: 'Gestionar Operarios',
       iconName: 'solar:users-group-two-rounded-line-duotone',
       route: '/ui-components/operators',
     },

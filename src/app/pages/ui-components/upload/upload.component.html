@@ -9,13 +9,20 @@
           <img [src]="imageUrl" alt="Image Preview" style="width: 300px; height: 300px; object-fit: cover" />
         </div>
         <div class="m-t-30">
-          <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="fileInput.click()">
-            Elegir archivo
-          </button>
-          <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
-          <button mat-stroked-button color="primary" (click)="onUpload()" [disabled]="!selectedFile">
-            Predecir
-          </button>
+          <ng-container *ngIf="highestConfidence !== null && highestConfidence >= 0.8; else uploadButtons">
+            <button mat-flat-button color="primary" type="button" (click)="onRegresar()">
+              Regresar
+            </button>
+          </ng-container>
+          <ng-template #uploadButtons>
+            <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="fileInput.click()">
+              Elegir archivo
+            </button>
+            <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+            <button mat-stroked-button color="primary" (click)="onUpload()" [disabled]="!selectedFile">
+              Predecir
+            </button>
+          </ng-template>
         </div>
       </div>
       <div class="col-md-6">

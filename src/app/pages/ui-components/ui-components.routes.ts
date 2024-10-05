@@ -12,6 +12,8 @@ import { SupportComponent } from '../authentication/support/support.component';
 import { GuideComponent } from './guide/guide.component';
 import { LearnComponent } from './guide/learn/learn.component';
 import { UseComponent } from './guide/use/use.component';
+import { NewOperatorComponent } from './operators/newoperator/newoperator.component';
+import { GuardService } from '../../services/guard.service';
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -30,22 +32,6 @@ export const UiComponentsRoutes: Routes = [
         component: UploadComponent,
       },
       {
-        path: 'operators',
-        component: OperatorsComponent,
-      },
-      {
-        path: 'operators/edit/:idOperarios',
-        component: EditOperatorsComponent,
-      },
-      {
-        path: 'inquiries',
-        component: InquiriesComponent,
-      },
-      {
-        path: 'inquiries/edit/:idConsultas',
-        component: EditInquiriesComponent,
-      },
-      {
         path: 'guide',
         component: GuideComponent,
       },
@@ -61,6 +47,36 @@ export const UiComponentsRoutes: Routes = [
         path: 'authentication/support',
         component: SupportComponent,
       },
+      {
+        path: 'operators',
+        component: OperatorsComponent,
+        canActivate: [GuardService],
+        data: { roles: ['ADMIN'] },
+      },
+      {
+        path: 'operators/edit/:idOperarios',
+        component: EditOperatorsComponent,
+        canActivate: [GuardService],
+        data: { roles: ['ADMIN'] },
+      },
+      {
+        path: 'operators/new',
+        component: NewOperatorComponent,
+        canActivate: [GuardService],
+        data: { roles: ['ADMIN'] },
+      },
+      {
+        path: 'inquiries',
+        component: InquiriesComponent,
+        canActivate: [GuardService],
+        data: { roles: ['ADMIN'] },
+      },
+      {
+        path: 'inquiries/edit/:idConsultas',
+        component: EditInquiriesComponent,
+        canActivate: [GuardService],
+        data: { roles: ['ADMIN'] },
+      }
     ],
   },
 ];

@@ -49,7 +49,7 @@ export class UploadComponent implements OnInit {
             this.snackBar.open('Ya has subido una imagen para esta entrada', 'Cerrar', {
               duration: 3000,
             });
-            this.router.navigate(['/ui-components/tables']);
+            this.router.navigate(['/ui-components/forms']);
           }
         },
         (error) => {
@@ -84,16 +84,19 @@ export class UploadComponent implements OnInit {
           this.dataSource.data = result;
           this.highestConfidence = Math.max(...result.map((r) => r.confidence));
           this.errorMessage = null;
-          console.log('Resultado de la predicción:', result, 'Tiempo de predicción:', predictionTime, 'ms');
+          if (this.highestConfidence < 0.8) {
+            this.snackBar.open('La confianza más alta es menor a 80%. Por favor, suba la imagen nuevamente.', 'Cerrar', {
+              duration: 3000,
+            });
+          }else{
+          this.snackBar.open(`La predicción se realizó en ${predictionTime} milisegundos`, 'Cerrar', {
+            duration: 3000,
+          });
+        }
 
           // Subir a GCP (buckets) con signedUrl
           this.signedUrlService.uploadFile(this.selectedFile!).subscribe(
             (uploadResult: any) => {
-              this.snackBar.open('Archivo subido correctamente', 'Cerrar', {
-                duration: 3000,
-              });
-
-              // Guardar el link de la imagen en la base de datos
               if (this.idCarnes !== null) {
                 const url = new URL(uploadResult.url);
                 const baseUrl = `${url.origin}${url.pathname}`;
@@ -129,5 +132,8 @@ export class UploadComponent implements OnInit {
         }
       );
     }
+  }
+  onRegresar(): void {
+    this.router.navigate(['/ui-components/forms']);
   }
 }

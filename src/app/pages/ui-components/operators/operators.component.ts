@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Operarios } from '../../../models/operarios';
 import { MaterialModule } from '../../../material.module';
 import { CommonModule } from '@angular/common';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-operators',
@@ -24,6 +25,7 @@ export class OperatorsComponent implements OnInit {
   constructor(
     private operariosService: OperariosService,
     private usersService: UsersService,
+    private roleService: RoleService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -64,13 +66,19 @@ export class OperatorsComponent implements OnInit {
   }
 
   delete(element: Operarios) {
-    const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este operario?');
-    if (confirmed) {
-      this.operariosService.delete(element.idOperarios).subscribe(() => {
-        this.usersService.delete(element.users_id.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(op => op.idOperarios !== element.idOperarios);
-        });
-      });
-    }
+      const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este operario?');
+      if (confirmed) {
+          this.operariosService.delete(element.idOperarios).subscribe(() => {
+              this.roleService.delete(element.users_id.id).subscribe(() => {
+                  this.usersService.delete(element.users_id.id).subscribe(() => {
+                      this.dataSource.data = this.dataSource.data.filter(op => op.idOperarios !== element.idOperarios);
+                  });
+              });
+          });
+      }
+  }
+
+  newOperator() {
+    this.router.navigate(['/ui-components/operators/new']);
   }
 }

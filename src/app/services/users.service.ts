@@ -64,4 +64,11 @@ export class UsersService {
       headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
     });
   }
+
+  buscarPorUsername(username: string): Observable<Users> {
+    let token = sessionStorage.getItem('token');
+    return this.http.get<Users>(`${this.url}/buscar/${username}`, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
+    });
+  }
 }

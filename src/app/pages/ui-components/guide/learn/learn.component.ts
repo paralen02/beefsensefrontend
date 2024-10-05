@@ -17,7 +17,7 @@ export class LearnComponent implements OnInit {
   ngOnInit() {
   }
 
-  onVolver() {
+  onRegresar() {
     this.router.navigate(['/ui-components/guide']);
   }
 }

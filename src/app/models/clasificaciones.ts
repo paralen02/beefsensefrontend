@@ -1,7 +1,8 @@
-import { Sesiones } from "./sesiones";
+import { Modelos } from "./modelos";
 
 export class Clasificaciones {
     idClasificaciones: number = 0;
     categoria: string = "";
-    sesion: Sesiones = new Sesiones();
+    precisión: number = 0;
+    modelos_id: Modelos = new Modelos();
 }

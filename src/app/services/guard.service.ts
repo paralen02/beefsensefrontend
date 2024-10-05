@@ -19,8 +19,17 @@ export class GuardService {
     }
     const isAuthenticated = this.lService.verificar();
     if (!isAuthenticated) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
+    }
+
+    const allowedRoles = route.data['roles'];
+    if (allowedRoles) {
+      const userRole = this.lService.showRole();
+      if (!allowedRoles.includes(userRole)) {
+        this.router.navigate(['/']);
+        return false;
+      }
     }
     return true;
   }

@@ -38,25 +38,33 @@
             Conformación
           </th>
           <td mat-cell *matCellDef="let element" class="mat-body-1">
-
             <h6 class="mat-body-1 f-s-16 m-b-4">
-              <span class="text-dark f-w-600">{{ element.conformacion }} </span>
+              <span [ngClass]="{
+                'text-error': element.conformacion === 'O' || element.conformacion === 'P',
+                'text-warning': element.conformacion === 'R',
+                'text-success': element.conformacion === 'E' || element.conformacion === 'U'
+              }">
+                {{ element.conformacion }}
+              </span>
             </h6>
           </td>
         </ng-container>
 
-        <!-- Weight Column -->
+        <!-- Grasa Column -->
         <ng-container matColumnDef="grasa">
           <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
             Grasa
           </th>
           <td mat-cell *matCellDef="let element">
-            <span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-16">
+            <span [ngClass]="{
+              'text-error': element.grasa === '1' || element.grasa === '2',
+              'text-warning': element.grasa === '3',
+              'text-success': element.grasa === '4' || element.grasa === '5'
+            }">
               {{ element.grasa | titlecase }}
             </span>
           </td>
         </ng-container>
-
 
         <!-- Peso Column -->
         <ng-container matColumnDef="peso">
@@ -64,9 +72,14 @@
             Peso
           </th>
           <td mat-cell *matCellDef="let element" class="mat-body-1">
-
             <h6 class="mat-body-1 f-s-16 m-b-4">
-              <span class="text-dark f-w-600">{{ element.peso }} </span>
+              <span [ngClass]="{
+                'text-error': element.peso === 'A' || element.peso === 'B',
+                'text-warning': element.peso === 'C',
+                'text-success': element.peso === 'D' || element.peso === 'E'
+              }">
+                {{ element.peso }}
+              </span>
             </h6>
           </td>
         </ng-container>
@@ -79,7 +92,7 @@
           <td mat-cell *matCellDef="let element" class="mat-body-1">
 
             <h6 class="mat-body-1 f-s-16 m-b-4">
-              <span class="text-dark f-w-600">{{ element.fecha | date:'dd/MM/yyyy HH:mm' }} </span>
+              <span class="text-dark f-w-600">{{ element.fecha | date:'dd/MM/yyyy HH:mm':'-0500' }} </span>
             </h6>
           </td>
         </ng-container>
