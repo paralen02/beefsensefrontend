@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../material.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-support',
@@ -30,7 +31,9 @@ export class SupportComponent implements OnInit {
     private fb: FormBuilder,
     private consultasService: ConsultasService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService // Inject LoginService
+
   ) {
     this.supportForm = this.fb.group({
       username: ['', Validators.required],
@@ -61,7 +64,11 @@ export class SupportComponent implements OnInit {
           this.snackBar.open('La consulta se envió correctamente. El administrador se pondrá en contacto con usted a la brevedad.', 'Cerrar', {
             duration: 5000,
           });
-          this.router.navigate(['/']);
+          if (this.loginService.verificar()) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/']);
+          }
         },
         (error: any) => {
           this.snackBar.open('Error al enviar la consulta', 'Cerrar', {
@@ -73,6 +80,10 @@ export class SupportComponent implements OnInit {
   }
 
   onRegresar() {
-    this.router.navigate(['/']);
+    if (this.loginService.verificar()) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }
