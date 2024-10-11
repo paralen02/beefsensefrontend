@@ -59,9 +59,16 @@ export class CarnesService {
     });
   }
 
-  listByOperarioId(operarioId: number): Observable<Carnes[]> {
+  deleteByOperariosId(operarios_id: number): Observable<any> {
     let token = sessionStorage.getItem('token');
-    return this.http.get<Carnes[]>(`${this.url}/operario/${operarioId}`, {
+    return this.http.delete(`${this.url}/${operarios_id}`, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
+    });
+  }
+
+  listByOperarioId(operarios_id: number): Observable<Carnes[]> {
+    let token = sessionStorage.getItem('token');
+    return this.http.get<Carnes[]>(`${this.url}/operario/${operarios_id}`, {
       headers: new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json'),
     });
   }
