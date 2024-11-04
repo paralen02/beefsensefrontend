@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
     <div class="branding">
       <a [routerLink]="['/']">
         <img
-          src="./assets/images/logos/inpelsa.svg"
+          src="../../../../assets/images/logos/inpelsa.svg"
           class="align-middle m-2"
           alt="logo"
         />
