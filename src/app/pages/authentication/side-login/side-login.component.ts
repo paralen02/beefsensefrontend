@@ -51,27 +51,41 @@ export class AppSideLoginComponent implements OnInit {
   }
 
   login() {
+    // Verificar si ambos campos están vacíos
+    if (!this.username.trim() || !this.password.trim()) {
+      this.mensaje = "Ambos campos son obligatorios.";
+      this.snackBar.open(this.mensaje, 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
+
     let request = new JwtRequest();
     request.username = this.username;
     request.password = this.password;
-    this.loginService.login(request).subscribe((data: any) => {
-      sessionStorage.setItem("token", data.jwttoken);
-      sessionStorage.setItem("username", this.username);
 
-      let roles = this.loginService.showRole();
-      if (roles.includes('ADMIN') || roles.includes('OPERARIO')) {
-      this.router.navigate(['/dashboard']);
-      sessionStorage.setItem('shouldRefresh', 'true');
+    this.loginService.login(request).subscribe(
+      (data: any) => {
+        sessionStorage.setItem("token", data.jwttoken);
+        sessionStorage.setItem("username", this.username);
+
+        let roles = this.loginService.showRole();
+        if (roles.includes('ADMIN') || roles.includes('OPERARIO')) {
+          this.router.navigate(['/dashboard']);
+          sessionStorage.setItem('shouldRefresh', 'true');
+        }
+      },
+      error => {
+        this.mensaje = "Las credenciales son inválidas. Intente nuevamente.";
+        this.snackBar.open(this.mensaje, 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
       }
-    }, error => {
-      this.mensaje = "Las credenciales son inválidas. Intente nuevamente.";
-      this.snackBar.open(this.mensaje, 'Cerrar', {
-      duration: 3000,
-      // Horizontal position options: 'start', 'center', 'end', 'left', 'right'
-      horizontalPosition: 'center', // Change this to see different positions
-      // Vertical position options: 'top', 'bottom'
-      verticalPosition: 'bottom', // Change this to see different positions
-      });
-    });
+    );
   }
+
 }
